@@ -1,0 +1,20 @@
+#!/bin/sh
+# Determine working directory
+POPUP=`dirname "$0"`/cocoaDialog.app/Contents/MacOS/cocoaDialog
+# Original Agent.cfg OSX default path
+CONFDIR_PATH=/Library/Preferences/fusioninventory
+  
+# Options for cocoaDialog
+RUNMODE="inputbox"
+TITLE="TAG for Agent.cfg"
+TEXT="Enter a TAG for this install"
+OTHEROPTS="--float --string-output --resize"
+ICON="computer"
+
+#Do the dialog, get the result and strip the Ok button code
+RESPONSE=`$POPUP $RUNMODE --button1 "Ok" $OTHEROPTS  --icon $ICON --title "${TITLE}" --text "${TEXT}"`
+RESPONSE=`echo $RESPONSE | sed 's/Ok//g'`
+
+#Create a new Agent.cfg with custom TAG
+sed "s/tag = /tag = $RESPONSE/g" $CONFDIR_PATH/agent.cfg.default > $CONFDIR_PATH/agent.cfg
+

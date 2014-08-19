@@ -69,7 +69,7 @@ rsync -r extlib/lib/perl5/ "$SRCDST$DATADIR_PATH/lib/"
 
 echo "Rename default agent.cfg file to use later with OSX package postinstall script"
 mv $SRCDST$CONFDIR_PATH/agent.cfg $SRCDST$CONFDIR_PATH/agent.cfg.default
-#rm -Rf $ROOTDIR/$FI_DIR
+rm -Rf $ROOTDIR/$FI_DIR
 echo "######################################"
 echo "Modify agent.cfg.default"
 echo "######################################"

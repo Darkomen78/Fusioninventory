@@ -1,0 +1,59 @@
+{
+   "abstract" : "Uniform Resource Identifiers (absolute and relative)",
+   "author" : [
+      "Gisle Aas <gisle@activestate.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 6.9904, CPAN::Meta::Converter version 2.141520, CPAN::Meta::Converter version 2.120921",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "URI",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "File::Temp" : "0",
+            "Test" : "0",
+            "Test::More" : "0.96"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "recommends" : {
+            "Business::ISBN" : "0"
+         },
+         "requires" : {
+            "Exporter" : "5.57",
+            "MIME::Base64" : "2",
+            "parent" : "0",
+            "perl" : "5.008001",
+            "utf8" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://rt.cpan.org/Public/Dist/Display.html?Name=URI"
+      },
+      "repository" : {
+         "url" : "https://github.com/libwww-perl/uri.git"
+      },
+      "x_MailingList" : "mailto:libwww@perl.org"
+   },
+   "version" : "1.64"
+}

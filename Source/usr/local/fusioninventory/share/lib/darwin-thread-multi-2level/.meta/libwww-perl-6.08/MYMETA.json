@@ -1,0 +1,74 @@
+{
+   "abstract" : "The World-Wide Web library for Perl",
+   "author" : [
+      "Gisle Aas <gisle@activestate.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 6.98, CPAN::Meta::Converter version 2.141170, CPAN::Meta::Converter version 2.120921",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "libwww-perl",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "recommends" : {
+            "Authen::NTLM" : "1.02",
+            "LWP::Protocol::https" : "6.02"
+         },
+         "requires" : {
+            "Digest::MD5" : "0",
+            "Encode" : "2.12",
+            "Encode::Locale" : "0",
+            "File::Listing" : "6",
+            "HTML::Entities" : "0",
+            "HTML::HeadParser" : "0",
+            "HTTP::Cookies" : "6",
+            "HTTP::Daemon" : "6",
+            "HTTP::Date" : "6",
+            "HTTP::Negotiate" : "6",
+            "HTTP::Request" : "6",
+            "HTTP::Request::Common" : "6",
+            "HTTP::Response" : "6",
+            "HTTP::Status" : "6",
+            "IO::Select" : "0",
+            "IO::Socket" : "0",
+            "LWP::MediaTypes" : "6",
+            "MIME::Base64" : "2.1",
+            "Net::FTP" : "2.58",
+            "Net::HTTP" : "6.07",
+            "URI" : "1.10",
+            "URI::Escape" : "0",
+            "WWW::RobotRules" : "6",
+            "perl" : "5.008001"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "repository" : {
+         "url" : "https://github.com/libwww-perl/libwww-perl"
+      },
+      "x_MailingList" : "mailto:libwww@perl.org"
+   },
+   "version" : "6.08"
+}

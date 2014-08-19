@@ -1,0 +1,20 @@
+#!/bin/sh
+# Default OSX FusionInventory path
+OLD_INSTALL_PATH='/opt/fusioninventory-agent'
+INSTALL_PATH='/usr/local/fusioninventory'
+CONFDIR_PATH='/Library/Preferences/fusioninventory'
+
+# remove old install of agent
+if [ -d $OLD_INSTALL_PATH ]; then
+# keep old agent.cfg and move it in the new path
+mkdir $CONFDIR_PATH
+mv $OLD_INSTALL_PATH/agent.cfg $CONFDIR_PATH/old_agent.cfg
+rm -R $OLD_INSTALL_PATH
+fi
+if [ -d $INSTALL_PATH ]; then
+# remove previous install of agent
+rm -R $INSTALL_PATH
+# rename old agent.cfg file
+[ ! -f $CONFDIR_PATH/previous_agent.cfg ] mv $CONFDIR_PATH/agent.cfg $CONFDIR_PATH/previous_agent.cfg
+fi
+exit 0

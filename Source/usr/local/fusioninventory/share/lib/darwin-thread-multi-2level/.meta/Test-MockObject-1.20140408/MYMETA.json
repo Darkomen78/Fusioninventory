@@ -1,0 +1,59 @@
+{
+   "abstract" : "Perl extension for emulating troublesome interfaces",
+   "author" : [
+      "chromatic"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 5.013, CPAN::Meta::Converter version 2.133380, CPAN::Meta::Converter version 2.120921",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Test-MockObject",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.30"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "CGI" : "0",
+            "Carp" : "0",
+            "Devel::Peek" : "0",
+            "Scalar::Util" : "0",
+            "Test::Builder" : "0",
+            "Test::Exception" : "0.31",
+            "Test::More" : "0.98",
+            "Test::Warn" : "0.23",
+            "UNIVERSAL::can" : "1.20110617",
+            "UNIVERSAL::isa" : "1.20110614",
+            "base" : "0",
+            "constant" : "0",
+            "fields" : "0",
+            "overload" : "0",
+            "strict" : "0",
+            "vars" : "0",
+            "warnings" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-MockObject"
+      },
+      "repository" : {
+         "url" : "https://github.com/chromatic/Test-MockObject.git"
+      }
+   },
+   "version" : "1.20140408"
+}
