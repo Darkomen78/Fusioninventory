@@ -9,8 +9,22 @@ More info at http://www.fusioninventory.org
 
 Launch and follow script instructions.
 
--> Install Perlbrew in your home folder (~/perl5)
+Major step :
 
--> Download last version of FusionInventory-agent sources
+-> Install Xcode command line tools
 
--> Create Source folder with files ready to copy or package
+-> Install Perlbrew
+
+-> Install Perl 5.16.2 in Perlbrew
+
+-> Install CPANM in Perl 5.16.2
+
+-> Download FusionInventory-agent sources
+
+-> Tweak default agent.cfg for OSX
+
+-> Create "source folder" with files ready to copy or package
+
+-> Optional : create a simple package
+
+-> Optional : create a deploy package
