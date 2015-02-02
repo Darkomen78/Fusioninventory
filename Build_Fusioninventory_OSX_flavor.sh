@@ -37,43 +37,53 @@ PERLBREW_ROOT=$PERLBREWROOTDST/perlbrew
 export PERLBREW_ROOT=$PERLBREWROOTDST/perlbrew
 PERLBREW_HOME=/tmp/.perlbrew
 if [ -f $PERLBREW_ROOT/etc/bashrc ]; then
-source $PERLBREW_ROOT/etc/bashrc
+	source $PERLBREW_ROOT/etc/bashrc
 fi
 
 if [ ! -d /Library/Developer/CommandLineTools ]; then
-clear
-echo "Xcode command line tools not found, install it..."
-xcode-select --install
-read -p "When Xcode command line tools install is finish, relaunch this script" -t 5
-exit 0
+	clear
+	echo "Xcode command line tools not found, install it..."
+	xcode-select --install
+	read -p "When Xcode command line tools install is finish, relaunch this script" -t 5
+	exit 0
 fi
 
 if [ ! -d $PERLBREWROOTDST ]; then
-echo "Perlbrew not found, install it..."
-curl -L 'http://install.perlbrew.pl' | bash
-read -p "Perlbrew install is OK. Quit and restart Terminal, then relaunch this script" -t 5
-exit 0
+	clear
+	echo "Perlbrew not found, install it..."
+	curl -L 'http://install.perlbrew.pl' | bash
+	read -p "Perlbrew install is OK. Quit and restart Terminal, then relaunch this script" -t 5
+	exit 0
 fi
 
 if [ ! -d "$PERLBREW_ROOT"/perls/perl-"$OSXPERLVER" ]; then
-echo "Perl $OSXPERLVER in Perlbrew not found, install it... take a cup of tea or coffee"
-perlbrew install perl-$OSXPERLVER
-read -p "Perl $OSXPERLVER install is finish, relaunch this script" -t 5
-exit 0
+	clear
+	echo "Perl $OSXPERLVER in Perlbrew not found, install it... take a cup of tea or coffee"
+	perlbrew install perl-$OSXPERLVER
+	read -p "Perl $OSXPERLVER install is finish, relaunch this script" -t 5
+	exit 0
 fi
 
 if [ -d $PERLBREWROOTDST/perlbrew/perls/perl-$OSXPERLVER ]; then
-echo "################## Switch to Perl version $OSXPERLVER #######################"
-perlbrew switch "$OSXPERLVER"
+	clear
+	echo "################## Switch to Perl version $OSXPERLVER #######################"
+	perlbrew switch "$OSXPERLVER"
 fi
 
 if [ ! -f $PERLBREWROOTDST/perlbrew/perls/perl-$OSXPERLVER/bin/cpanm ]; then
-echo "cpanm in Perlbrew not found, install it..."
-cpan -i App::cpanminus
+	clear
+	echo "cpanm in Perlbrew not found, install it..."
+	cpan -i App::cpanminus
 fi
 
-echo "install or update required modules"
-$PERLBREWROOTDST/perlbrew/perls/perl-$OSXPERLVER/bin/cpanm -i --force File::Which LWP Net::IP Text::Template UNIVERSAL::require XML::TreePP Compress::Zlib HTTP::Daemon IO::Socket::SSL Parse::EDID Proc::Daemon Proc::PID::File HTTP::Proxy HTTP::Server::Simple::Authen IPC::Run JSON Net::SNMP POE::Component::Client::Ping POSIX IO::Capture::Stderr LWP::Protocol::https Test::Compile Test::Deep Test::Exception Test::HTTP::Server::Simple Test::MockModule Test::MockObject Test::NoWarnings
+
+read -p "----------------> Update required modules... ? [Y] " -n 1 -r UPDMOD
+echo
+if [[ $UPDMOD =~ ^[Yy]$ ]]; then
+	"$PERLBREWROOTDST/perlbrew/perls/perl-$OSXPERLVER/bin/cpanm" -i --force File::Which LWP Net::IP Text::Template UNIVERSAL::require XML::TreePP Compress::Zlib HTTP::Daemon IO::Socket::SSL Parse::EDID Proc::Daemon Proc::PID::File HTTP::Proxy HTTP::Server::Simple::Authen IPC::Run JSON Net::SNMP POE::Component::Client::Ping POSIX IO::Capture::Stderr LWP::Protocol::https Test::Compile Test::Deep Test::Exception Test::HTTP::Server::Simple Test::MockModule Test::MockObject Test::NoWarnings
+else
+	echo "skip update"
+fi
 
 if [ ! -f /tmp/$FI_VERSION.tar.gz ]; then
 	cd /tmp/
@@ -119,7 +129,7 @@ fi
 cd $SRCDST
 mkdir -p ."$CONFDIR_PATH"
 mkdir -p ."$INSTALL_PATH"
-read -p "Delete temporary files ? [N] " -n 1 -r
+read -p "----------------> Delete temporary files ? [N] " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
@@ -141,10 +151,10 @@ chmod -R 775 "$ROOTDIR"
 cd "$ROOTDIR"
 echo "Installed files copied in $SRCDST"
 echo
-read -p "Create standard package ? [Y] " -n 1 -r PKG
+read -p "----------------> Create standard package ? [Y] " -n 1 -r PKG
 echo
-if [[ $PKG = [Nn]$ ]]; then
-	exit 0
+if [[ $PKG =~ ^[Nn]$ ]]; then
+	echo "skip standard package"
 else	
 	if [ ! -d /Applications/Packages.app ]; then
 		echo "No Packages install found, install it..."
@@ -162,9 +172,10 @@ else
 /usr/local/bin/packagesbuild -v "FusionInventory_$FI_VERSION.pkgproj" && rm "FusionInventory_$FI_VERSION.pkgproj"
 chmod -R 775 ./build
 open ./build
-read -p "Create vanilla deployment package ? [Y] " -n 1 -r PKG
+fi
+read -p "----------------> Create vanilla deployment package ? [Y] " -n 1 -r DEPLOY
 echo
-if [[ $DEPLOY = [Nn]$ ]]; then
+if [[ $DEPLOY =~ ^[Nn]$ ]]; then
 	exit 0
 else	
 	if [ ! -d /Applications/Packages.app ]; then
@@ -180,16 +191,17 @@ else
 		curl -O -L "$GITSRC$DEPLOYPROJ"
 		unzip "$DEPLOYPROJ" && rm "$DEPLOYPROJ"
 	fi
-	if [ ! -d "./Deploy"]; then
-		curl -O -L "$GITSRCDeploy.zip"
+	if [ ! -d "./Deploy" ]; then
+		curl -O -L "$GITSRC"Deploy.zip
 		unzip "Deploy.zip" && rm "Deploy.zip"
 	fi
-	if [ ! -d "./source_deploy"]; then
-		curl -O -L "$GITSRCsource_deploy.zip"
+	if [ ! -d "./source_deploy" ]; then
+		curl -O -L "$GITSRC"source_deploy.zip
 		unzip "source_deploy.zip" && rm "source_deploy.zip"
 	fi
-/usr/local/bin/packagesbuild -v "FusionInventory_deploy_$FI_VERSION.pkgproj" && rm "FusionInventory_deploy_$FI_VERSION.pkgproj"
-chmod -R 775 ./Deploy
+rm -R ./__MACOSX
+/usr/local/bin/packagesbuild -v "FusionInventory_deploy_$FI_VERSION.pkgproj" && rm "FusionInventory_deploy_$FI_VERSION.pkgproj" && rm -R ./source_deploy
+chown -R root:staff ./Deploy && chmod -R 775 ./Deploy
 open ./Deploy && open ./Deploy/"configure.command"
 exit 0
 fi

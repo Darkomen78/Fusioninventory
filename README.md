@@ -27,4 +27,4 @@ Major step :
 
 -> Optional : create a simple package
 
--> Optional : create a deploy package
+-> Optional : create an ARD-ready package (with autostart at login) and configure TAG and server URL
