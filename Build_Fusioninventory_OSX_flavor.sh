@@ -45,6 +45,7 @@ if [ ! -d /Library/Developer/CommandLineTools ]; then
 	echo "Xcode command line tools not found, install it..."
 	xcode-select --install
 	read -p "When Xcode command line tools install is finish, relaunch this script" -t 5
+	echo
 	exit 0
 fi
 
@@ -53,6 +54,7 @@ if [ ! -d $PERLBREWROOTDST ]; then
 	echo "Perlbrew not found, install it..."
 	curl -L 'http://install.perlbrew.pl' | bash
 	read -p "Perlbrew install is OK. Quit and restart Terminal, then relaunch this script" -t 5
+	echo
 	exit 0
 fi
 
@@ -61,6 +63,7 @@ if [ ! -d "$PERLBREW_ROOT"/perls/perl-"$OSXPERLVER" ]; then
 	echo "Perl $OSXPERLVER in Perlbrew not found, install it... take a cup of tea or coffee"
 	perlbrew install perl-$OSXPERLVER
 	read -p "Perl $OSXPERLVER install is finish, relaunch this script" -t 5
+	echo
 	exit 0
 fi
 
@@ -79,10 +82,10 @@ fi
 
 read -p "----------------> Update required modules... ? [Y] " -n 1 -r UPDMOD
 echo
-if [[ $UPDMOD =~ ^[Yy]$ ]]; then
-	"$PERLBREWROOTDST/perlbrew/perls/perl-$OSXPERLVER/bin/cpanm" -i --force File::Which LWP Net::IP Text::Template UNIVERSAL::require XML::TreePP Compress::Zlib HTTP::Daemon IO::Socket::SSL Parse::EDID Proc::Daemon Proc::PID::File HTTP::Proxy HTTP::Server::Simple::Authen IPC::Run JSON Net::SNMP POE::Component::Client::Ping POSIX IO::Capture::Stderr LWP::Protocol::https Test::Compile Test::Deep Test::Exception Test::HTTP::Server::Simple Test::MockModule Test::MockObject Test::NoWarnings
-else
+if [[ $UPDMOD =~ ^[Nn]$ ]]; then
 	echo "skip update"
+else
+	"$PERLBREWROOTDST/perlbrew/perls/perl-$OSXPERLVER/bin/cpanm" -i --force File::Which LWP Net::IP Text::Template UNIVERSAL::require XML::TreePP Compress::Zlib HTTP::Daemon IO::Socket::SSL Parse::EDID Proc::Daemon Proc::PID::File HTTP::Proxy HTTP::Server::Simple::Authen IPC::Run JSON Net::SNMP POE::Component::Client::Ping POSIX IO::Capture::Stderr LWP::Protocol::https Test::Compile Test::Deep Test::Exception Test::HTTP::Server::Simple Test::MockModule Test::MockObject Test::NoWarnings
 fi
 
 if [ ! -f /tmp/$FI_VERSION.tar.gz ]; then
@@ -199,9 +202,17 @@ else
 		curl -O -L "$GITSRC"source_deploy.zip
 		unzip "source_deploy.zip" && rm "source_deploy.zip"
 	fi
-rm -R ./__MACOSX
-/usr/local/bin/packagesbuild -v "FusionInventory_deploy_$FI_VERSION.pkgproj" && rm "FusionInventory_deploy_$FI_VERSION.pkgproj" && rm -R ./source_deploy
-chown -R root:staff ./Deploy && chmod -R 775 ./Deploy
-open ./Deploy && open ./Deploy/"configure.command"
-exit 0
+	rm -R ./__MACOSX
+	/usr/local/bin/packagesbuild -v "FusionInventory_deploy_$FI_VERSION.pkgproj" && rm "FusionInventory_deploy_$FI_VERSION.pkgproj" && rm -R ./source_deploy
+	chown -R root:staff ./Deploy && chmod -R 775 ./Deploy && open ./Deploy
+	read -p "----------------> Configure your first deployment package ? (run configure.command in deploy folder) [Y] " -n 1 -r CONF
+	echo
+	if [[ $CONF =~ ^[Yy]$ ]]; then
+		open ./Deploy/"configure.command"
+	else
+	echo	
+	exit 0
+	fi
 fi
+echo
+exit 0	

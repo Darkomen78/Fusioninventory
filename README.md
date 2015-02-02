@@ -4,7 +4,7 @@ Fusioninventory
 Everything you need to use and deploy FusionInventory-agent on OSX 
 Tested on 10.8.x / 10.9.X / 10.10.x
 
-###Daemon mode seems to not enjoy Safari "Force Inventory" link ( http://127.0.0.1:62354 ) please use Firefox or Chrome to use this link.###
+####In daemon mode the "Force Inventory" link ( http://127.0.0.1:62354 ) not work well in Safari. Please use Firefox or Chrome to use this link.####
 
 More info at http://www.fusioninventory.org
 
@@ -25,14 +25,16 @@ Major step :
 
 -> Install CPANM in Perl 5.16.2 (in Perlbrew)
 
--> Install or update Perl modules
+-> Install or update modules in Perl 5.16.2 (in Perlbrew)
 
--> Download FusionInventory-agent sources
+-> Download FusionInventory-agent sources from https://cpan.metacpan.org/authors/id/G/GR/GROUSSE/
 
 -> Tweak default agent.cfg for OSX
 
 -> Create "source folder" with files ready to copy or package
 
--> Optional : create a simple package
+-> Optional : create a simple package for test, after your package install copy /Library/Preferences/fusioninventory/agent.cfg.default to /Library/Preferences/fusioninventory/agent.cfg and edit with your settings
 
--> Optional : create an ARD-ready package (with autostart at login) and configure TAG and server URL
+-> Optional : create an ARD-ready package (with autostart at login) 
+
+-> Optional : edit TAG and server URL for your first deployment package. You can run configure.command later (in Deploy folder) to configure new deploy package
