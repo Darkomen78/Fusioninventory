@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Version 1.0 by Sylvain La Gravière
+# Twitter : @darkomen78
+# Mail : darkomen@me.com
+
 # Change with the latest stable version 
 FI_VERSION="2.3.15"
 
@@ -8,10 +12,8 @@ FUSIONSRC="https://cpan.metacpan.org/authors/id/G/GR/GROUSSE/"
 PACKAGESSRC="http://s.sudre.free.fr/Software/files/Packages.dmg"
 GITSRC="https://raw.github.com/Darkomen78/Fusioninventory/master/"
 
-
-
 # Perl Version : Lion 5.12.3 - Mountain Lion 5.12.4 - Maverick 5.16.2 - Yosemite 5.18.2
-# Install this version in perlbrew, must work on any system
+# Install this version in perlbrew, must work on 10.8+
 OSXPERLVER=5.16.2
 
 # Temporary local source folder
@@ -83,7 +85,7 @@ fi
 read -p "----------------> Update required modules... ? [Y] " -n 1 -r UPDMOD
 echo
 if [[ $UPDMOD =~ ^[Nn]$ ]]; then
-	echo "skip update"
+	echo "...skip update modules"
 else
 	"$PERLBREWROOTDST/perlbrew/perls/perl-$OSXPERLVER/bin/cpanm" -i --force File::Which LWP Net::IP Text::Template UNIVERSAL::require XML::TreePP Compress::Zlib HTTP::Daemon IO::Socket::SSL Parse::EDID Proc::Daemon Proc::PID::File HTTP::Proxy HTTP::Server::Simple::Authen IPC::Run JSON Net::SNMP POE::Component::Client::Ping POSIX IO::Capture::Stderr LWP::Protocol::https Test::Compile Test::Deep Test::Exception Test::HTTP::Server::Simple Test::MockModule Test::MockObject Test::NoWarnings
 fi
@@ -136,6 +138,7 @@ read -p "----------------> Delete temporary files ? [N] " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
+	echo "...remove temporary files"
 	rm -Rf /tmp/$FI_DIR
 	cp -R "$CONFDIR_PATH/"* ."$CONFDIR_PATH/" && rm -Rf "$CONFDIR_PATH"
 	cp -R "$INSTALL_PATH/"* ."$INSTALL_PATH/" && rm -Rf "$INSTALL_PATH"
@@ -152,12 +155,12 @@ rm -Rf .$PERLBREW_ROOT"/perls/perl-"$OSXPERLVER/man
 
 chmod -R 775 "$ROOTDIR"
 cd "$ROOTDIR"
-echo "Installed files copied in $SRCDST"
+echo "Files copied in $SRCDST"
 echo
 read -p "----------------> Create standard package ? [Y] " -n 1 -r PKG
 echo
 if [[ $PKG =~ ^[Nn]$ ]]; then
-	echo "skip standard package"
+	echo "...skip create standard package"
 else	
 	if [ ! -d /Applications/Packages.app ]; then
 		echo "No Packages install found, install it..."
@@ -179,6 +182,8 @@ fi
 read -p "----------------> Create vanilla deployment package ? [Y] " -n 1 -r DEPLOY
 echo
 if [[ $DEPLOY =~ ^[Nn]$ ]]; then
+	echo "...skip create deployment package"
+	echo
 	exit 0
 else	
 	if [ ! -d /Applications/Packages.app ]; then
@@ -205,11 +210,12 @@ else
 	rm -R ./__MACOSX
 	/usr/local/bin/packagesbuild -v "FusionInventory_deploy_$FI_VERSION.pkgproj" && rm "FusionInventory_deploy_$FI_VERSION.pkgproj" && rm -R ./source_deploy
 	chown -R root:staff ./Deploy && chmod -R 775 ./Deploy && open ./Deploy
-	read -p "----------------> Configure your first deployment package ? (run configure.command in deploy folder) [Y] " -n 1 -r CONF
+	read -p "----------------> Configure your first deployment package ? [Y] " -n 1 -r CONF
 	echo
 	if [[ $CONF =~ ^[Yy]$ ]]; then
-		open ./Deploy/"configure.command"
+		open ./Deploy/"Configure.command"
 	else
+	echo "...skip configure deployement package"
 	echo	
 	exit 0
 	fi
