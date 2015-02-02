@@ -215,7 +215,7 @@ else
 	if [[ $CONF =~ ^[Yy]$ ]]; then
 		open ./Deploy/"Configure.command"
 	else
-	echo "...skip configure deployement package"
+	echo "...skip configure deployment package"
 	echo	
 	exit 0
 	fi
