@@ -7,7 +7,10 @@ More info at http://www.fusioninventory.org
 
 • Build_Fusioninventory_OSX_Flavor.sh
 
-Launch and follow script instructions.
+1. Copy script in a folder on your "build machine"
+2. Launch terminal and type : `cd path_of_the_folder`
+3. then type `sudo ./Build_FusionInventory_OSX_Flavor.sh`
+4. Follow script instructions and wait a little
 
 Major step :
 
@@ -17,7 +20,9 @@ Major step :
 
 -> Install Perl 5.16.2 in Perlbrew
 
--> Install CPANM in Perl 5.16.2
+-> Install CPANM in Perl 5.16.2 (in Perlbrew)
+
+-> Install or update Perl modules
 
 -> Download FusionInventory-agent sources
 
