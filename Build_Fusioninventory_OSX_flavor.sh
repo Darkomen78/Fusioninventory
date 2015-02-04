@@ -167,7 +167,7 @@ else
 		cd /tmp/
 		curl -O -L $PACKAGESSRC && echo "Download Stéphane Sudre's Packages install"
 		hdiutil mount /tmp/Packages.dmg && echo "Mount Packages install"
-		/usr/sbin/installer -dumplog -verbose -pkg "/Volumes/Packages/packages/Packages.pkg" -target "$3" && echo "Install Packages" && hdiutil unmount /Volumes/Packages/ && echo "Unmount Packages install"
+		/usr/sbin/installer -dumplog -verbose -pkg "/Volumes/Packages/packages/Packages.pkg" -target / && echo "Install Packages" && hdiutil unmount /Volumes/Packages/ && echo "Unmount Packages install"
 		cd "$ROOTDIR"
 	fi
 	if [ ! -f "FusionInventory_$FI_VERSION.pkgproj" ]; then	
@@ -191,7 +191,7 @@ else
 		cd /tmp/
 		curl -O -L $PACKAGESSRC && echo "Download Stéphane Sudre's Packages install"
 		hdiutil mount /tmp/Packages.dmg && echo "Mount Packages install"
-		/usr/sbin/installer -dumplog -verbose -pkg "/Volumes/Packages/packages/Packages.pkg" -target "$3" && echo "Install Packages" && hdiutil unmount /Volumes/Packages/ && echo "Unmount Packages install"
+		/usr/sbin/installer -dumplog -verbose -pkg "/Volumes/Packages/packages/Packages.pkg" -target / && echo "Install Packages" && hdiutil unmount /Volumes/Packages/ && echo "Unmount Packages install"
 		cd "$ROOTDIR"
 	fi
 	if [ ! -f "FusionInventory_deploy_$FI_VERSION.pkgproj" ]; then	

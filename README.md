@@ -4,16 +4,18 @@ Fusioninventory
 Everything you need to use and deploy FusionInventory-agent on OSX 
 Tested on 10.8.x / 10.9.X / 10.10.x
 
-####In daemon mode the "Force Inventory" link ( http://127.0.0.1:62354 ) not work well in Safari. Please use Firefox or Chrome to use this link.####
+**In daemon mode the "Force Inventory" link ( http://127.0.0.1:62354 ) not work well in Safari. Please use Firefox or Chrome to use this link.**
 
 More info at http://www.fusioninventory.org
 
 • Build_Fusioninventory_OSX_Flavor.sh
 
-1. Copy script in a folder on your "build machine"
-2. Launch terminal and type : `cd path_to_the_folder`
-3. then type `sudo ./Build_FusionInventory_OSX_Flavor.sh`
-4. Follow script instructions and wait a little
+HowTo build package :
+
+1. Copy the "Build" script in a folder on your "OSX build machine"
+2. Open terminal and type : `cd "path_to_the_script_folder"`
+3. Type `sudo ./Build_FusionInventory_OSX_Flavor.sh`
+4. Follow script instructions
 
 Major step :
 
@@ -25,7 +27,7 @@ Major step :
 
 -> Install CPANM in Perl 5.16.2 (in Perlbrew)
 
--> Install or update modules in Perl 5.16.2 (in Perlbrew)
+-> Install (say y(es) on first launch) or update modules in Perl 5.16.2 (in Perlbrew)
 
 -> Download FusionInventory-agent sources from https://cpan.metacpan.org/authors/id/G/GR/GROUSSE/
 
