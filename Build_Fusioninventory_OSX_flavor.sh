@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Version 1.0 by Sylvain La Gravière
+# Version 1.1 by Sylvain La Gravière
 # Twitter : @darkomen78
 # Mail : darkomen@me.com
 
@@ -10,7 +10,7 @@ FI_VERSION="2.3.15"
 # Source base URL
 FUSIONSRC="https://cpan.metacpan.org/authors/id/G/GR/GROUSSE/"
 PACKAGESSRC="http://s.sudre.free.fr/Software/files/Packages.dmg"
-GITSRC="https://raw.github.com/Darkomen78/Fusioninventory/master/"
+GITSRC="https://raw.github.com/Darkomen78/Fusioninventory/master/source"
 
 # Perl Version : Lion 5.12.3 - Mountain Lion 5.12.4 - Maverick 5.16.2 - Yosemite 5.18.2
 # Install this version in perlbrew, must work on 10.8+
@@ -212,12 +212,12 @@ else
 	chown -R root:staff ./Deploy && chmod -R 775 ./Deploy && open ./Deploy
 	read -p "----------------> Configure your first deployment package ? [Y] " -n 1 -r CONF
 	echo
-	if [[ $CONF =~ ^[Yy]$ ]]; then
-		open ./Deploy/"Configure.command"
+	if [[ $CONF =~ ^[Nn]$ ]]; then
+		echo "...skip configure deployment package"
+		echo	
+		exit 0
 	else
-	echo "...skip configure deployment package"
-	echo	
-	exit 0
+		open ./Deploy/"Configure.command"	
 	fi
 fi
 echo
