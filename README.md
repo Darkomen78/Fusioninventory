@@ -10,7 +10,7 @@ More info at http://www.fusioninventory.org
 
 • Build_Fusioninventory_OSX_Flavor.sh
 
-HowTo build package :
+HowTo build Fusioninventory OSX package :
 
 1. Copy the "Build" script in a folder on your "OSX build machine"
 2. Open terminal and type : `cd "path_to_the_script_folder"`

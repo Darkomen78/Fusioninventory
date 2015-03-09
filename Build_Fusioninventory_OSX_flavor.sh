@@ -172,7 +172,7 @@ else
 	fi
 	if [ ! -f "FusionInventory_$FI_VERSION.pkgproj" ]; then	
 		echo "FusionInventory_$FI_VERSION.pkgproj not found, download it..."
-		curl -O -L "$GITSRC$PROJ"
+		curl -O -L "$GITSRC/$PROJ"
 		unzip "$PROJ" && rm "$PROJ"
 	fi
 /usr/local/bin/packagesbuild -v "FusionInventory_$FI_VERSION.pkgproj" && rm "FusionInventory_$FI_VERSION.pkgproj"
@@ -196,7 +196,7 @@ else
 	fi
 	if [ ! -f "FusionInventory_deploy_$FI_VERSION.pkgproj" ]; then	
 		echo "FusionInventory_deploy_$FI_VERSION.pkgproj not found, download it..."
-		curl -O -L "$GITSRC$DEPLOYPROJ"
+		curl -O -L "$GITSRC/$DEPLOYPROJ"
 		unzip "$DEPLOYPROJ" && rm "$DEPLOYPROJ"
 	fi
 	if [ ! -d "./Deploy" ]; then
