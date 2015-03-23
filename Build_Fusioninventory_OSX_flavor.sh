@@ -1,16 +1,30 @@
 #!/bin/bash
 
-# Version 1.1 by Sylvain La Gravière
+# Version 1.2 by Sylvain La Gravière
 # Twitter : @darkomen78
 # Mail : darkomen@me.com
 
-# Change with the latest stable version 
-FI_VERSION="2.3.15"
+# Show help command if no version 
+: ${1?"this script need a version, type $0 help for more info"}
+
+# FusionInventory version
+FI_VERSION=$1 
+
+if [ $FI_VERSION = "help" ]; then
+	echo ""
+	echo "Usage: ""$0"" [version]"
+	echo "Example : ""$0"" 2.3.16"
+	echo ""
+exit 0
+fi
+
+# Ask admin password
+(( EUID != 0 )) && exec sudo -- "$0" "$@"
 
 # Source base URL
 FUSIONSRC="https://cpan.metacpan.org/authors/id/G/GR/GROUSSE/"
 PACKAGESSRC="http://s.sudre.free.fr/Software/files/Packages.dmg"
-GITSRC="https://raw.github.com/Darkomen78/Fusioninventory/master/source"
+GITSRC="https://raw.github.com/Darkomen78/Fusioninventory/master/source/"
 
 # Perl Version : Lion 5.12.3 - Mountain Lion 5.12.4 - Maverick 5.16.2 - Yosemite 5.18.2
 # Install this version in perlbrew, must work on 10.8+
@@ -20,8 +34,8 @@ OSXPERLVER=5.16.2
 FI_DIR="FusionInventory-Agent-$FI_VERSION"
 
 # Temporary Packages files
-PROJ="Proj_FusionInventory_$FI_VERSION.zip"
-DEPLOYPROJ="Proj_FusionInventory_deploy_$FI_VERSION.zip"
+PROJ="FusionInventory.pkgproj"
+DEPLOYPROJ="FusionInventory_deploy.pkgproj"
 
 # Default paths for OSX
 INSTALL_PATH='/usr/local/fusioninventory'
@@ -30,7 +44,7 @@ DATADIR_PATH='/usr/local/fusioninventory/share'
 # Current dir
 ROOTDIR="`pwd`"
 # Local final folder 
-SRCDST="$ROOTDIR/Source_$FI_VERSION"
+SRCDST="$ROOTDIR/$FI_VERSION/"
 
 
 # Perlbrew install path and mandatory variables
@@ -46,7 +60,7 @@ if [ ! -d /Library/Developer/CommandLineTools ]; then
 	clear
 	echo "Xcode command line tools not found, install it..."
 	xcode-select --install
-	read -p "When Xcode command line tools install is finish, relaunch this script" -t 5
+	read -p "When Xcode command line tools install is finish, please relaunch this script" -t 5
 	echo
 	exit 0
 fi
@@ -62,9 +76,9 @@ fi
 
 if [ ! -d "$PERLBREW_ROOT"/perls/perl-"$OSXPERLVER" ]; then
 	clear
-	echo "Perl $OSXPERLVER in Perlbrew not found, install it... take a cup of tea or coffee"
+	echo "Perl $OSXPERLVER in Perlbrew not found, install it..."
 	perlbrew install perl-$OSXPERLVER
-	read -p "Perl $OSXPERLVER install is finish, relaunch this script" -t 5
+	read -p "Perl $OSXPERLVER install is finish, please relaunch this script" -t 5
 	echo
 	exit 0
 fi
@@ -81,8 +95,7 @@ if [ ! -f $PERLBREWROOTDST/perlbrew/perls/perl-$OSXPERLVER/bin/cpanm ]; then
 	cpan -i App::cpanminus
 fi
 
-
-read -p "----------------> Update required modules... ? [Y] " -n 1 -r UPDMOD
+read -p "----------------> Update Perl modules... ? [Y] " -n 1 -r UPDMOD
 echo
 if [[ $UPDMOD =~ ^[Nn]$ ]]; then
 	echo "...skip update modules"
@@ -121,23 +134,27 @@ echo "Change backend timeout from 30 to 180"
 sed -i "" "s/backend-collect-timeout = 30/backend-collect-timeout = 180/g" $CONFDIR_PATH/agent.cfg.default
 echo "######################################"
 
-echo "Move files to source folder for packages..."
-if [ ! -d $SRCDST ]; then
-	mkdir $SRCDST
+echo "Move files to Source folder for packages..."
+if [ ! -d "$SRCDST/Source" ]; then
+	mkdir -p "$SRCDST/Source"
 else 
-	if [ -d "$SRCDST""_previous" ]; then
-		rm -Rf "$SRCDST""_previous"
+	read -p "----------------> Use current source folder ? [Y] " -n 1 -r USECURRENTSRC
+	if [[ $USECURRENTSRC =~ ^[Nn]$ ]]; then
+		if [ -d "$SRCDST/Source_previous" ]; then
+			rm -Rf "$SRCDST/Source_previous"
+		fi
+	echo "old source move to Source_previous"
+	mv "$SRCDST/Source" "$SRCDST/Source_previous"
+	mkdir -p "$SRCDST/source"
 	fi
-	mv "$SRCDST" "$SRCDST""_previous"
-	mkdir $SRCDST
 fi
-cd $SRCDST
+cd "$SRCDST/Source"
 mkdir -p ."$CONFDIR_PATH"
 mkdir -p ."$INSTALL_PATH"
-read -p "----------------> Delete temporary files ? [N] " -n 1 -r
+
+read -p "----------------> Delete temporary files ? [N] " -n 1 -r TEMPFILE
 echo
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
+if [[ $TEMPFILE =~ ^[Yy]$ ]]; then
 	echo "...remove temporary files"
 	rm -Rf /tmp/$FI_DIR
 	cp -R "$CONFDIR_PATH/"* ."$CONFDIR_PATH/" && rm -Rf "$CONFDIR_PATH"
@@ -146,38 +163,36 @@ else
 	cp -R "$CONFDIR_PATH/"* ."$CONFDIR_PATH/"
 	cp -R "$INSTALL_PATH/"* ."$INSTALL_PATH/"
 fi
-chmod -R 775 "$SRCDST"
-
 # Remove heavy useless files
-rm -Rf .$PERLBREW_ROOT/build
-rm -Rf .$PERLBREW_ROOT/dists
-rm -Rf .$PERLBREW_ROOT"/perls/perl-"$OSXPERLVER/man
-
+rm -Rf ".$PERLBREW_ROOT/build"
+rm -Rf ".$PERLBREW_ROOT/dists"
+rm -Rf ".$PERLBREW_ROOT/perls/perl-$OSXPERLVER/man"
+chown :admin "$ROOTDIR"
 chmod -R 775 "$ROOTDIR"
-cd "$ROOTDIR"
-echo "Files copied in $SRCDST"
+echo "Files copied in ""$SRCDST""Source/"
 echo
 read -p "----------------> Create standard package ? [Y] " -n 1 -r PKG
 echo
 if [[ $PKG =~ ^[Nn]$ ]]; then
 	echo "...skip create standard package"
 else	
-	if [ ! -d /Applications/Packages.app ]; then
+	if [ ! -d "/Applications/Packages.app" ]; then
 		echo "No Packages install found, install it..."
 		cd /tmp/
 		curl -O -L $PACKAGESSRC && echo "Download Stéphane Sudre's Packages install"
 		hdiutil mount /tmp/Packages.dmg && echo "Mount Packages install"
 		/usr/sbin/installer -dumplog -verbose -pkg "/Volumes/Packages/packages/Packages.pkg" -target / && echo "Install Packages" && hdiutil unmount /Volumes/Packages/ && echo "Unmount Packages install"
-		cd "$ROOTDIR"
 	fi
-	if [ ! -f "FusionInventory_$FI_VERSION.pkgproj" ]; then	
-		echo "FusionInventory_$FI_VERSION.pkgproj not found, download it..."
-		curl -O -L "$GITSRC/$PROJ"
-		unzip "$PROJ" && rm "$PROJ"
+	if [ ! -f "$SRCDST/FusionInventory.pkgproj" ]; then	
+		echo "FusionInventory.pkgproj not found, download it..."
+		cd "$SRCDST"
+		curl -O -L "$GITSRC$PROJ"
 	fi
-/usr/local/bin/packagesbuild -v "FusionInventory_$FI_VERSION.pkgproj" && rm "FusionInventory_$FI_VERSION.pkgproj"
-chmod -R 775 ./build
-open ./build
+	echo "update version on .pkgproj to " $FI_VERSION
+	cd "$SRCDST"
+	packagesutil --file "FusionInventory.pkgproj" set version $FI_VERSION
+	/usr/local/bin/packagesbuild -v "FusionInventory.pkgproj" && rm "FusionInventory.pkgproj"
+	chown -R :admin ./build && chmod -R 775 ./build && open ./build
 fi
 read -p "----------------> Create vanilla deployment package ? [Y] " -n 1 -r DEPLOY
 echo
@@ -186,30 +201,33 @@ if [[ $DEPLOY =~ ^[Nn]$ ]]; then
 	echo
 	exit 0
 else	
-	if [ ! -d /Applications/Packages.app ]; then
+	if [ ! -d "/Applications/Packages.app" ]; then
 		echo "No Packages install found, install it..."
 		cd /tmp/
 		curl -O -L $PACKAGESSRC && echo "Download Stéphane Sudre's Packages install"
 		hdiutil mount /tmp/Packages.dmg && echo "Mount Packages install"
 		/usr/sbin/installer -dumplog -verbose -pkg "/Volumes/Packages/packages/Packages.pkg" -target / && echo "Install Packages" && hdiutil unmount /Volumes/Packages/ && echo "Unmount Packages install"
-		cd "$ROOTDIR"
 	fi
-	if [ ! -f "FusionInventory_deploy_$FI_VERSION.pkgproj" ]; then	
-		echo "FusionInventory_deploy_$FI_VERSION.pkgproj not found, download it..."
-		curl -O -L "$GITSRC/$DEPLOYPROJ"
-		unzip "$DEPLOYPROJ" && rm "$DEPLOYPROJ"
+	if [ ! -f "$SRCDST/FusionInventory_deploy.pkgproj" ]; then	
+		echo "FusionInventory_deploy.pkgproj not found, download it..."
+		cd "$SRCDST"
+		curl -O -L "$GITSRC$DEPLOYPROJ"
 	fi
-	if [ ! -d "./Deploy" ]; then
+	if [ ! -d "$SRCDST/Deploy" ]; then
+		cd "$SRCDST"
 		curl -O -L "$GITSRC"Deploy.zip
-		unzip "Deploy.zip" && rm "Deploy.zip"
+		unzip "Deploy.zip" && rm "Deploy.zip" && rm -R ./__MACOSX
 	fi
-	if [ ! -d "./source_deploy" ]; then
+	if [ ! -d "$SRCDST/source_deploy" ]; then
+		cd "$SRCDST"
 		curl -O -L "$GITSRC"source_deploy.zip
-		unzip "source_deploy.zip" && rm "source_deploy.zip"
+		unzip "source_deploy.zip" && rm "source_deploy.zip" && rm -R ./__MACOSX
 	fi
-	rm -R ./__MACOSX
-	/usr/local/bin/packagesbuild -v "FusionInventory_deploy_$FI_VERSION.pkgproj" && rm "FusionInventory_deploy_$FI_VERSION.pkgproj" && rm -R ./source_deploy
-	chown -R root:staff ./Deploy && chmod -R 775 ./Deploy && open ./Deploy
+	cd "$SRCDST"
+	echo "update version on .pkgproj to " $FI_VERSION
+	packagesutil --file "FusionInventory_deploy.pkgproj" set package-2 version $FI_VERSION
+	/usr/local/bin/packagesbuild -v "FusionInventory_deploy.pkgproj" && rm -R ./source_deploy && rm "FusionInventory_deploy.pkgproj"
+	chown -R :admin ./Deploy && chmod -R 775 ./Deploy && open ./Deploy
 	read -p "----------------> Configure your first deployment package ? [Y] " -n 1 -r CONF
 	echo
 	if [[ $CONF =~ ^[Nn]$ ]]; then
@@ -217,7 +235,7 @@ else
 		echo	
 		exit 0
 	else
-		open ./Deploy/"Configure.command"	
+		open "$SRCDST/Deploy/Configure.command"	
 	fi
 fi
 echo

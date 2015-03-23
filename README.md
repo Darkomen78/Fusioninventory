@@ -14,7 +14,7 @@ HowTo build Fusioninventory OSX package :
 
 1. Copy the "Build" script in a folder on your "OSX build machine"
 2. Open terminal and type : `cd "path_to_the_script_folder"`
-3. Type `sudo ./Build_FusionInventory_OSX_Flavor.sh`
+3. Type `./Build_FusionInventory_OSX_Flavor.sh [Version]`
 4. Follow script instructions
 
 Major step :
@@ -29,14 +29,14 @@ Major step :
 
 -> Install (say y(es) on first launch) or update modules in Perl 5.16.2 (in Perlbrew)
 
--> Download FusionInventory-agent sources from https://cpan.metacpan.org/authors/id/G/GR/GROUSSE/
+-> Download FusionInventory-agent [Version] sources from https://cpan.metacpan.org/authors/id/G/GR/GROUSSE/
 
 -> Tweak default agent.cfg for OSX
 
--> Create "source folder" with files ready to copy or package
+-> Create "[Version] source folder" with files ready to copy or package
 
--> Optional : create a simple package for test, after your package install copy /Library/Preferences/fusioninventory/agent.cfg.default to /Library/Preferences/fusioninventory/agent.cfg and edit with your settings
+-> Optional Vanilla package : create a simple package for test, after your package install test, duplicate /Library/Preferences/fusioninventory/agent.cfg.default to /Library/Preferences/fusioninventory/agent.cfg and edit it with your settings
 
--> Optional : create an ARD-ready package (with autostart at login) 
+-> Optional Deploy package : create an ARD-ready package (with autostart at login) 
 
--> Optional : edit TAG and server URL for your first deployment package. You can run configure.command later (in Deploy folder) to configure new deploy package
+-> Optional Configure Deploy Package : edit TAG and server URL for your first deployment package. You can run configure.command later (in Deploy folder) to configure new deploy package
