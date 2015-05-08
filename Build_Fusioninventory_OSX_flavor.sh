@@ -4,6 +4,9 @@
 # Twitter : @darkomen78
 # Mail : darkomen@me.com
 
+# Ask admin password
+(( EUID != 0 )) && exec sudo -- "$0" "$@"
+
 # FusionInventory version
 FI_VERSION=$1 
 if [[ $FI_VERSION = [0-2].[0-3].[0-9] || $FI_VERSION = [0-2].[0-3].[0-1][0-6] ]]; then
@@ -25,9 +28,6 @@ if (( $TEST_VERSION >= 236 )); then
 fi
 PACKAGESSRC="http://s.sudre.free.fr/Software/files/Packages.dmg"
 GITSRC="https://raw.github.com/Darkomen78/Fusioninventory/master/source/"
-
-# Ask admin password
-(( EUID != 0 )) && exec sudo -- "$0" "$@"
 
 # Automatic Perl version detection
 OSXPERLVER=$(perl -v | grep v5 | cut -d "(" -f 2 | cut -d ")" -f 1 | sed s'/v//'g)
