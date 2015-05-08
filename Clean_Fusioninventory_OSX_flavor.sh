@@ -9,3 +9,6 @@ rm -rf /usr/local/var/fusioninventory
 rm -rf /Library/Preferences/fusioninventory
 rm -rf /tmp/FusionInventory-Agent-*
 rm -rf /tmp/extlib
+rm -f /Library/LaunchDaemons/org.fusioninventory.startup.plist
+
+
