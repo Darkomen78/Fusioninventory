@@ -43,8 +43,10 @@ DEPLOYPROJ="FusionInventory_deploy.pkgproj"
 INSTALL_PATH='/usr/local/fusioninventory'
 CONFDIR_PATH='/Library/Preferences/fusioninventory'
 DATADIR_PATH='/usr/local/fusioninventory/share'
+
 # Current dir
 ROOTDIR="`pwd`"
+
 # Local final folder 
 SRCDST="$ROOTDIR/$FI_VERSION/"
 
@@ -59,7 +61,7 @@ if [ -f $PERLBREW_ROOT/etc/bashrc ]; then
 fi
 
 if [ ! -d /Library/Developer/CommandLineTools ]; then
-	clear
+	#clear
 	echo "Xcode command line tools not found, install it..."
 	xcode-select --install
 	read -p "When Xcode command line tools install is finish, please relaunch this script" -t 5
@@ -68,7 +70,7 @@ if [ ! -d /Library/Developer/CommandLineTools ]; then
 fi
 
 if [ ! -d $PERLBREWROOTDST ]; then
-	clear
+	#clear
 	echo "Perlbrew not found, install it..."
 	curl -L 'http://install.perlbrew.pl' | bash
 	read -p "Perlbrew install is OK. Quit and restart Terminal, then relaunch this script" -t 5
@@ -77,7 +79,7 @@ if [ ! -d $PERLBREWROOTDST ]; then
 fi
 
 if [ ! -d "$PERLBREW_ROOT"/perls/perl-"$OSXPERLVER" ]; then
-	clear
+	#clear
 	echo "Perl $OSXPERLVER in Perlbrew not found, install it..."
 	perlbrew install perl-$OSXPERLVER
 	read -p "Perl $OSXPERLVER install is finish, please relaunch this script" -t 5
@@ -86,13 +88,13 @@ if [ ! -d "$PERLBREW_ROOT"/perls/perl-"$OSXPERLVER" ]; then
 fi
 
 if [ -d $PERLBREWROOTDST/perlbrew/perls/perl-$OSXPERLVER ]; then
-	clear
+	#clear
 	echo "################## Switch to Perl version $OSXPERLVER #######################"
 	perlbrew switch "$OSXPERLVER"
 fi
 
 if [ ! -f $PERLBREWROOTDST/perlbrew/perls/perl-$OSXPERLVER/bin/cpanm ]; then
-	clear
+	#clear
 	echo "cpanm in Perlbrew not found, install it..."
 	cpan -i App::cpanminus
 fi
