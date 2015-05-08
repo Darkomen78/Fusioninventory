@@ -17,7 +17,16 @@ fi
 (( EUID != 0 )) && exec sudo -- "$0" "$@"
 
 # Source base URL
-FUSIONSRC="https://cpan.metacpan.org/authors/id/G/GR/GROUSSE/"
+# Source base URL
+TEST_VERSION=$(echo $FI_VERSION | sed  s'/\.//g')
+if (( $TEST_VERSION >= 236 )); then
+	echo "Fetching source package from https://cpan.metacpan.org/authors/id/G/GR/GROUSSE/ (post 2.3.5)"
+	FUSIONSRC="https://cpan.metacpan.org/authors/id/G/GR/GROUSSE/"
+	else if (( $TEST_VERSION <= 236 )); then
+		echo "Fetching source package from https://cpan.metacpan.org/authors/id/G/GO/GONERI/ (pre 2.3.5)"
+		FUSIONSRC="https://cpan.metacpan.org/authors/id/G/GO/GONERI/"
+	fi
+fi
 PACKAGESSRC="http://s.sudre.free.fr/Software/files/Packages.dmg"
 GITSRC="https://raw.github.com/Darkomen78/Fusioninventory/master/source/"
 
