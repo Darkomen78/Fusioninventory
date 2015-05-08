@@ -30,9 +30,8 @@ GITSRC="https://raw.github.com/Darkomen78/Fusioninventory/master/source/"
 # Ask admin password
 (( EUID != 0 )) && exec sudo -- "$0" "$@"
 
-# Perl Version : Lion 5.12.3 - Mountain Lion 5.12.4 - Maverick 5.16.2 - Yosemite 5.18.2
-# Install this version in perlbrew, must work on 10.8+
-OSXPERLVER=5.16.2
+# Automatic Perl version detection
+OSXPERLVER=$(perl -v | grep v5 | cut -d "(" -f 2 | cut -d ")" -f 1 | sed s'/v//'g)
 
 # Temporary local source folder
 FI_DIR="FusionInventory-Agent-$FI_VERSION"
