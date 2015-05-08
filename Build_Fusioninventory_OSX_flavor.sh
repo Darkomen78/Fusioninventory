@@ -13,9 +13,6 @@ if [[ $FI_VERSION = [0-2].[0-3].[0-9] || $FI_VERSION = [0-2].[0-3].[0-1][0-6] ]]
 		exit 0
 fi
 
-# Ask admin password
-(( EUID != 0 )) && exec sudo -- "$0" "$@"
-
 # Source base URL
 # Source base URL
 TEST_VERSION=$(echo $FI_VERSION | sed  s'/\.//g')
@@ -29,6 +26,9 @@ if (( $TEST_VERSION >= 236 )); then
 fi
 PACKAGESSRC="http://s.sudre.free.fr/Software/files/Packages.dmg"
 GITSRC="https://raw.github.com/Darkomen78/Fusioninventory/master/source/"
+
+# Ask admin password
+(( EUID != 0 )) && exec sudo -- "$0" "$@"
 
 # Perl Version : Lion 5.12.3 - Mountain Lion 5.12.4 - Maverick 5.16.2 - Yosemite 5.18.2
 # Install this version in perlbrew, must work on 10.8+
