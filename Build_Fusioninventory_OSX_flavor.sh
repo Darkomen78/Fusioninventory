@@ -81,7 +81,7 @@ fi
 if [ ! -d "$PERLBREW_ROOT"/perls/perl-"$OSXPERLVER" ]; then
 	#clear
 	echo "Perl $OSXPERLVER in Perlbrew not found, install it..."
-	perlbrew install perl-$OSXPERLVER
+	perlbrew install perl-$OSXPERLVER -D usethreads
 	read -p "Perl $OSXPERLVER install is finish, please relaunch this script" -t 5
 	echo
 	exit 0
