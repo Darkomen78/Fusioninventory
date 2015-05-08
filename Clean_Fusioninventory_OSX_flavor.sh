@@ -8,4 +8,4 @@ rm -rf /usr/local/fusioninventory
 rm -rf /usr/local/var/fusioninventory
 rm -rf /Library/Preferences/fusioninventory
 rm -rf /tmp/FusionInventory-Agent-*
-rm -rf /tmp/
+rm -rf /tmp/extlib
