@@ -14,7 +14,6 @@ if [[ $FI_VERSION = [0-2].[0-3].[0-9] || $FI_VERSION = [0-2].[0-3].[0-1][0-6] ]]
 fi
 
 # Source base URL
-# Source base URL
 TEST_VERSION=$(echo $FI_VERSION | sed  s'/\.//g')
 if (( $TEST_VERSION >= 236 )); then
 	echo "Fetching source package from https://cpan.metacpan.org/authors/id/G/GR/GROUSSE/ (post 2.3.5)"
@@ -103,7 +102,7 @@ echo
 if [[ $UPDMOD =~ ^[Nn]$ ]]; then
 	echo "...skip update modules"
 else
-	"$PERLBREWROOTDST/perlbrew/perls/perl-$OSXPERLVER/bin/cpanm" -i --force File::Which LWP Net::IP Text::Template UNIVERSAL::require XML::TreePP Compress::Zlib HTTP::Daemon IO::Socket::SSL Parse::EDID Proc::Daemon Proc::PID::File HTTP::Proxy HTTP::Server::Simple::Authen IPC::Run JSON Net::SNMP POE::Component::Client::Ping POSIX IO::Capture::Stderr LWP::Protocol::https Test::Compile Test::Deep Test::Exception Test::HTTP::Server::Simple Test::MockModule Test::MockObject Test::NoWarnings
+	"$PERLBREWROOTDST/perlbrew/perls/perl-$OSXPERLVER/bin/cpanm" -i --force UNIVERSAL::require File::Which LWP Net::IP Text::Template UNIVERSAL::require XML::TreePP Compress::Zlib HTTP::Daemon IO::Socket::SSL Parse::EDID Proc::Daemon Proc::PID::File HTTP::Proxy HTTP::Server::Simple::Authen IPC::Run JSON Net::SNMP POE::Component::Client::Ping POSIX IO::Capture::Stderr LWP::Protocol::https Test::Compile Test::Deep Test::Exception Test::HTTP::Server::Simple Test::MockModule Test::MockObject Test::NoWarnings
 fi
 
 if [ ! -f /tmp/$FI_VERSION.tar.gz ]; then
