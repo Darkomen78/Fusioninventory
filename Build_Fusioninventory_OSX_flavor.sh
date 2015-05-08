@@ -4,18 +4,13 @@
 # Twitter : @darkomen78
 # Mail : darkomen@me.com
 
-# Show help command if no version 
-: ${1?"this script need a version, type $0 help for more info"}
-
 # FusionInventory version
 FI_VERSION=$1 
-
-if [ $FI_VERSION = "help" ]; then
-	echo ""
-	echo "Usage: ""$0"" [version]"
-	echo "Example : ""$0"" 2.3.16"
-	echo ""
-exit 0
+if [[ $FI_VERSION = [0-2].[0-3].[0-9] || $FI_VERSION = [0-2].[0-3].[0-1][0-6] ]]; then
+		echo "Building requested package version: $FI_VERSION"
+	else
+		echo -e "\nUsage: ""$0"" [version]\nExample : ""$0"" 2.3.16\n"
+		exit 0
 fi
 
 # Ask admin password
