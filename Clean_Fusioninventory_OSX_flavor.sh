@@ -1,5 +1,7 @@
 #!/bin/bash
 
+binpath="/usr/local/fusioninventory/bin/"
+
 # Ask admin password
 (( EUID != 0 )) && exec sudo -- "$0" "$@"
 
@@ -29,12 +31,11 @@ case "$1" in
             ;;
          
         probe)
-            echo $(/usr/local/fusioninventory/bin/fusioninventory-agent -v)
-            echo $(/usr/local/fusioninventory/bin/fusioninventory-netinventory --version)
-            echo $(/usr/local/fusioninventory/bin/fusioninventory-netdiscovery --version)
-            echo $(/usr/local/fusioninventory/bin/fusioninventory-esx --version)
-            echo $(/usr/local/fusioninventory/bin/fusioninventory-wakeonlan --version)
-            #echo $(/usr/local/fusioninventory/bin/fusioninventory-injector --version)
+            test -f $binpath/fusioninventory-agent && echo $($binpath/fusioninventory-agent -v) || echo "fusioninventory-agent : not installed"
+            test -f $binpath/fusioninventory-netinventory && echo $($binpath/fusioninventory-netinventory --version) || echo "fusioninventory-agent : not installed"
+            test -f $binpath/fusioninventory-netdiscovery && echo $($binpath/fusioninventory-netdiscovery --version) || echo "fusioninventory-netdiscovery : not installed"
+            test -f $binpath/fusioninventory-esx && echo $($binpath/fusioninventory-esx --version) || echo "fusioninventory-esx : not installed"
+            test -f $binpath/fusioninventory-wakeonlan && echo $($binpath/fusioninventory-wakeonlan --version) || echo "fusioninventory-wakeonlan : not installed"
             ;;
         *)
             echo $"Usage: $0 {clean|uninstall|probe}"
