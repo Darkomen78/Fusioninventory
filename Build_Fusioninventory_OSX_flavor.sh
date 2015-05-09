@@ -9,10 +9,10 @@
 
 # FusionInventory version
 FI_VERSION=$1 
-if [[ $FI_VERSION = [0-2].[0-3].[0-9] || $FI_VERSION = [0-2].[0-3].[0-1][0-6] ]]; then
+if [[ $FI_VERSION = [2-2].[0-0] || $FI_VERSION = [0-2].[0-3].[0-9] || $FI_VERSION = [0-2].[0-3].[0-1][0-6] ]]; then
 		echo "Building requested package version: $FI_VERSION"
 	else
-		echo -e "\nUsage: ""$0"" [version]\nExample : ""$0"" 2.3.16\n"
+		echo -e "\nUsage: ""$0"" [version]\nExample : ""$0"" 2.3.16\nAvailable versions (pre 2.3.5) : https://cpan.metacpan.org/authors/id/G/GO/GONERI/\nAvailable versions (post 2.3.5) : https://cpan.metacpan.org/authors/id/G/GR/GROUSSE/\n"
 		exit 0
 fi
 
