@@ -4,6 +4,9 @@
 # Twitter : @darkomen78
 # Mail : darkomen@me.com
 
+# Version 1.3 by Thomas Dannenmüller
+# Mail : tromatik@gmail.com
+
 # Ask admin password
 (( EUID != 0 )) && exec sudo -- "$0" "$@"
 
