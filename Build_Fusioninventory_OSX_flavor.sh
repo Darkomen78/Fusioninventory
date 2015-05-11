@@ -140,6 +140,12 @@ echo "######################################"
 echo "Change backend timeout from 30 to 180"
 sed -i "" "s/backend-collect-timeout = 30/backend-collect-timeout = 180/g" $CONFDIR_PATH/agent.cfg.default
 echo "######################################"
+ if (( $TEST_VERSION <= 238 )); then
+	echo "######################################"
+	echo "Comment scan-profiles option for pre 2.3.8 versions of the agent"
+	sed -i "" "s/scan-profiles = 0/#scan-profiles = 0/g" $CONFDIR_PATH/agent.cfg.default
+	echo "######################################"
+fi
 
 echo "Move files to Source folder for packages..."
 if [ ! -d "$SRCDST/Source" ]; then
