@@ -11,7 +11,7 @@
 (( EUID != 0 )) && exec sudo -- "$0" "$@"
 
 # FusionInventory version
-FI_VERSION=$1 
+FI_VERSION=$1
 if [[ $FI_VERSION = [2-2].[0-0] || $FI_VERSION = [0-2].[0-3].[0-9] || $FI_VERSION = [0-2].[0-3].[0-1][0-6] ]]; then
 		echo "Building requested package version: $FI_VERSION"
 	else
@@ -50,7 +50,7 @@ DATADIR_PATH='/usr/local/fusioninventory/share'
 # Current dir
 ROOTDIR="`pwd`"
 
-# Local final folder 
+# Local final folder
 SRCDST="$ROOTDIR/$FI_VERSION/"
 
 
@@ -107,7 +107,7 @@ echo
 if [[ $UPDMOD =~ ^[Nn]$ ]]; then
 	echo "...skip update modules"
 else
-	"$PERLBREWROOTDST/perlbrew/perls/perl-$OSXPERLVER/bin/cpanm" -i --force Socket::GetAddrInfo UNIVERSAL::require File::Which LWP Net::IP Text::Template UNIVERSAL::require XML::TreePP Compress::Zlib HTTP::Daemon IO::Socket::SSL Parse::EDID Proc::Daemon Proc::PID::File HTTP::Proxy HTTP::Server::Simple::Authen IPC::Run JSON Net::SNMP POE::Component::Client::Ping POSIX IO::Capture::Stderr LWP::Protocol::https Test::Compile Test::Deep Test::Exception Test::HTTP::Server::Simple Test::MockModule Test::MockObject Test::NoWarnings
+	"$PERLBREWROOTDST/perlbrew/perls/perl-$OSXPERLVER/bin/cpanm" -i --force Socket::GetAddrInfo UNIVERSAL::require File::Which LWP Net::IP Text::Template UNIVERSAL::require XML::TreePP Compress::Zlib HTTP::Daemon IO::Socket::SSL Parse::EDID Proc::Daemon Proc::PID::File HTTP::Proxy HTTP::Server::Simple::Authen IPC::Run JSON Net::SNMP POE::Component::Client::Ping POSIX IO::Capture::Stderr LWP::Protocol::https Test::Compile Test::Deep Test::Exception Test::HTTP::Server::Simple Test::MockModule Test::MockObject Test::NoWarnings File::Copy::Recursive
 fi
 
 if [ ! -f /tmp/$FI_DIR.tar.gz ]; then
@@ -122,7 +122,7 @@ tar xzf $FI_DIR.tar.gz && rm $FI_DIR.tar.gz
 cd /tmp/$FI_DIR
 
 echo "Temporary install..."
-export SYSCONFDIR="$CONFDIR_PATH" 
+export SYSCONFDIR="$CONFDIR_PATH"
 export DATADIR="$DATADIR_PATH"
 perl Makefile.PL -I lib SYSCONFDIR="$CONFDIR_PATH" DATADIR="$DATADIR_PATH"
 make
@@ -150,7 +150,7 @@ fi
 echo "Move files to Source folder for packages..."
 if [ ! -d "$SRCDST/Source" ]; then
 	mkdir -p "$SRCDST/Source"
-else 
+else
 	read -p "----------------> Use current source folder ? [Y] " -n 1 -r USECURRENTSRC
 	if [[ $USECURRENTSRC =~ ^[Nn]$ ]]; then
 		if [ -d "$SRCDST/Source_previous" ]; then
@@ -188,7 +188,7 @@ read -p "----------------> Create standard package ? [Y] " -n 1 -r PKG
 echo
 if [[ $PKG =~ ^[Nn]$ ]]; then
 	echo "...skip create standard package"
-else	
+else
 	if [ ! -d "/Applications/Packages.app" ]; then
 		echo "No Packages install found, install it..."
 		cd /tmp/
@@ -196,7 +196,7 @@ else
 		hdiutil mount /tmp/Packages.dmg && echo "Mount Packages install"
 		/usr/sbin/installer -dumplog -verbose -pkg "/Volumes/Packages/packages/Packages.pkg" -target / && echo "Install Packages" && hdiutil unmount /Volumes/Packages/ && echo "Unmount Packages install"
 	fi
-	if [ ! -f "$SRCDST/FusionInventory.pkgproj" ]; then	
+	if [ ! -f "$SRCDST/FusionInventory.pkgproj" ]; then
 		echo "FusionInventory.pkgproj not found, download it..."
 		cd "$SRCDST"
 		curl -O -L "$GITSRC$PROJ"
@@ -213,7 +213,7 @@ if [[ $DEPLOY =~ ^[Nn]$ ]]; then
 	echo "...skip create deployment package"
 	echo
 	exit 0
-else	
+else
 	if [ ! -d "/Applications/Packages.app" ]; then
 		echo "No Packages install found, install it..."
 		cd /tmp/
@@ -221,7 +221,7 @@ else
 		hdiutil mount /tmp/Packages.dmg && echo "Mount Packages install"
 		/usr/sbin/installer -dumplog -verbose -pkg "/Volumes/Packages/packages/Packages.pkg" -target / && echo "Install Packages" && hdiutil unmount /Volumes/Packages/ && echo "Unmount Packages install"
 	fi
-	if [ ! -f "$SRCDST/FusionInventory_deploy.pkgproj" ]; then	
+	if [ ! -f "$SRCDST/FusionInventory_deploy.pkgproj" ]; then
 		echo "FusionInventory_deploy.pkgproj not found, download it..."
 		cd "$SRCDST"
 		curl -O -L "$GITSRC$DEPLOYPROJ"
@@ -245,11 +245,11 @@ else
 	echo
 	if [[ $CONF =~ ^[Nn]$ ]]; then
 		echo "...skip configure deployment package"
-		echo	
+		echo
 		exit 0
 	else
-		open "$SRCDST/Deploy/Configure.command"	
+		open "$SRCDST/Deploy/Configure.command"
 	fi
 fi
 echo
-exit 0	
+exit 0
