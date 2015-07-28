@@ -72,11 +72,7 @@ if [ ! -d /Library/Developer/CommandLineTools ]; then
 	exit 0
 fi
 
-<<<<<<< HEAD
 if [ ! -d $PERLBREW_ROOT ]; then
-=======
-if [ ! -d $PERLBREWROOTDST ]; then
->>>>>>> origin/master
 	#clear
 	echo "Perlbrew not found, install it..."
 	curl -L 'http://install.perlbrew.pl' | bash
