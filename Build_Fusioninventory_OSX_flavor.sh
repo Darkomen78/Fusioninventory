@@ -156,6 +156,7 @@ else
 		if [ -d "$SRCDST/Source_previous" ]; then
 			rm -Rf "$SRCDST/Source_previous"
 		fi
+	echo	
 	echo "old source move to Source_previous"
 	mv "$SRCDST/Source" "$SRCDST/Source_previous"
 	mkdir -p "$SRCDST/source"
@@ -184,10 +185,10 @@ chown :admin "$ROOTDIR"
 chmod -R 775 "$ROOTDIR"
 echo "Files copied in ""$SRCDST""Source/"
 echo
-read -p "----------------> Create standard package ? [Y] " -n 1 -r PKG
+read -p "----------------> Create test package ? [Y] " -n 1 -r PKG
 echo
 if [[ $PKG =~ ^[Nn]$ ]]; then
-	echo "...skip create standard package"
+	echo "...skip create test package"
 else
 	if [ ! -d "/Applications/Packages.app" ]; then
 		echo "No Packages install found, install it..."
