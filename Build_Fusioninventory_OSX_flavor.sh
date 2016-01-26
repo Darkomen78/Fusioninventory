@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Version 1.3.1 by Sylvain La Gravière
+# Original version and 1.4 by Sylvain La Gravière
 # Twitter : @darkomen78
 # Mail : darkomen@me.com
 
@@ -12,31 +12,28 @@
 
 # FusionInventory version
 FI_VERSION=$1
-if [[ $FI_VERSION = [2-2].[0-0] || $FI_VERSION = [0-2].[0-3].[0-9] || $FI_VERSION = [0-2].[0-3].[0-1][0-6] ]]; then
+if [[ $FI_VERSION = [0-2].[0-3].[0-9] || $FI_VERSION = [0-2].[0-3].[0-1][0-7] ]]; then
 		echo "Building requested package version: $FI_VERSION"
 	else
-		echo -e "\nUsage: ""$0"" [version]\nExample : ""$0"" 2.3.16\nAvailable versions (pre 2.3.5) : https://cpan.metacpan.org/authors/id/G/GO/GONERI/\nAvailable versions (post 2.3.5) : https://cpan.metacpan.org/authors/id/G/GR/GROUSSE/\n"
+		echo -e "\nUsage: ""$0"" [version]\nExample : ""$0"" 2.3.17\nAvailable versions : https://github.com/fusioninventory/fusioninventory-agent/releases\n"
 		exit 0
 fi
-
-# Source base URL
 TEST_VERSION=$(echo $FI_VERSION | sed  s'/\.//g')
-if (( $TEST_VERSION >= 236 )); then
-	echo "Fetching source package from https://cpan.metacpan.org/authors/id/G/GR/GROUSSE/ (post 2.3.5)"
-	FUSIONSRC="https://cpan.metacpan.org/authors/id/G/GR/GROUSSE/"
-	else if (( $TEST_VERSION <= 236 )); then
-		echo "Fetching source package from https://cpan.metacpan.org/authors/id/G/GO/GONERI/ (pre 2.3.5)"
-		FUSIONSRC="https://cpan.metacpan.org/authors/id/G/GO/GONERI/"
-	fi
-fi
+
+# FusionInventory Agent source
+FUSIONSRC="https://github.com/fusioninventory/fusioninventory-agent/archive/"
+
+# Stéphane Sudre's Packages software
 PACKAGESSRC="http://s.sudre.free.fr/Software/files/Packages.dmg"
+
+# Darkomen's git stuff
 GITSRC="https://raw.github.com/Darkomen78/Fusioninventory/master/source/"
 
 # Automatic Perl version detection
 OSXPERLVER=$(perl -v | grep v5 | cut -d "(" -f 2 | cut -d ")" -f 1 | sed s'/v//'g)
 
 # Temporary local source folder
-FI_DIR="FusionInventory-Agent-$FI_VERSION"
+FI_DIR="fusioninventory-agent-$FI_VERSION"
 
 # Temporary Packages files
 PROJ="FusionInventory.pkgproj"
@@ -107,18 +104,55 @@ echo
 if [[ $UPDMOD =~ ^[Nn]$ ]]; then
 	echo "...skip update modules"
 else
-	"$PERLBREWROOTDST/perlbrew/perls/perl-$OSXPERLVER/bin/cpanm" -i --force File::Which LWP Net::IP Text::Template UNIVERSAL::require XML::TreePP Compress::Zlib HTTP::Daemon IO::Socket::SSL Parse::EDID Proc::Daemon Proc::PID::File HTTP::Proxy HTTP::Server::Simple::Authen IPC::Run JSON Net::SNMP POE::Component::Client::Ping POSIX IO::Capture::Stderr LWP::Protocol::https Test::Compile Test::Deep Test::Exception Test::HTTP::Server::Simple Test::MockModule Test::MockObject Test::NoWarnings File::Copy::Recursive Socket::GetAddrInfo UNIVERSAL::require
+#	Error or optional IO::Socket::SSL Net::CUPS Net::Write::Layer2 LWP::Protocol::https
+	"$PERLBREWROOTDST/perlbrew/perls/perl-$OSXPERLVER/bin/cpanm" -i \
+	Archive::Extract \
+	Compress::Zlib \
+	Config::Tiny \
+	Crypt::DES \
+	Digest::SHA \
+	File::Copy::Recursive \
+	File::Which \
+	HTTP::Daemon \
+	HTTP::Proxy \
+	HTTP::Server::Simple::Authen \
+	inc::Module::Install \
+	IO::Capture::Stderr \
+	IPC::Run \
+	JSON \
+	LWP::UserAgent \
+	Net::IP \
+	Net::Ping \
+	Net::SNMP \
+	Parse::EDID \
+	POE::Component::Client::Ping \
+	POSIX \
+	Proc::Daemon \
+	Proc::PID::File \
+	Socket::GetAddrInfo \
+	Test::Compile \
+	Test::Deep \
+	Test::Exception \
+	Test::MockModule \
+	Test::MockObject \
+	Test::NoWarnings \
+	Text::Template \
+	Thread::Queue \
+	UNIVERSAL::require \
+	URI::Escape \
+	XML::TreePP \
+/	
 fi
 
 if [ ! -f /tmp/$FI_DIR.tar.gz ]; then
-	curl -o /tmp/$FI_DIR.tar.gz -L $FUSIONSRC$FI_DIR.tar.gz && echo "Download $FI_DIR"
+	curl -s -L $FUSIONSRC$FI_VERSION.tar.gz  -o /tmp/$FI_VERSION.tar.gz && echo "Download $FI_DIR"
 fi
 
 echo "Empty destination folder"
 cd /tmp/
 rm -Rf $INSTALL_PATH/bin
 rm -Rf $INSTALL_PATH/share
-tar xzf $FI_DIR.tar.gz && rm $FI_DIR.tar.gz
+tar xzf $FI_VERSION.tar.gz && rm $FI_VERSION.tar.gz
 cd /tmp/$FI_DIR
 
 echo "Temporary install..."
