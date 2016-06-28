@@ -12,7 +12,7 @@
 
 # FusionInventory version
 FI_VERSION=$1
-if [[ $FI_VERSION = [0-2].[0-3].[0-9] || $FI_VERSION = [0-2].[0-3].[0-1][0-7] ]]; then
+if [[ $FI_VERSION = [0-2].[0-3].[0-9] || $FI_VERSION = [0-2].[0-3].[0-1][0-8] ]]; then
 		echo "Building requested package version: $FI_VERSION"
 	else
 		echo -e "\nUsage: ""$0"" [version]\nExample : ""$0"" 2.3.17\nAvailable versions : https://github.com/fusioninventory/fusioninventory-agent/releases\n"
@@ -141,7 +141,7 @@ else
 	UNIVERSAL::require \
 	URI::Escape \
 	XML::TreePP \
-/	
+/
 fi
 
 if [ ! -f /tmp/$FI_DIR.tar.gz ]; then
@@ -190,7 +190,7 @@ else
 		if [ -d "$SRCDST/Source_previous" ]; then
 			rm -Rf "$SRCDST/Source_previous"
 		fi
-	echo	
+	echo
 	echo "old source move to Source_previous"
 	mv "$SRCDST/Source" "$SRCDST/Source_previous"
 	mkdir -p "$SRCDST/source"
